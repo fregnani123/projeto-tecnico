@@ -36,7 +36,7 @@ Para rodar a aplicação, é necessário utilizar o Docker. Siga os passos abaix
 
 1. **Clone o repositório:**
     ```bash
-    git clone [URL (https://github.com/fregnani123/projeto-tecnico.git) repositório]
+   git clone [URL (https://github.com/fregnani123/projeto-tecnico.git) repositório]
     ```
 
 2. **Navegue até o diretório do projeto:**
