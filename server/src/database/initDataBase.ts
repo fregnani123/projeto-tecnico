@@ -1,3 +1,6 @@
+
+// Tabela de usuarios iniciais para testes no histórico de viagens.
+
 import db from '../database/database';
 
 interface Usuario {
@@ -137,11 +140,14 @@ function inserirDadosIniciais(): void {
 
     if (row.count === 0) {
       const viagens: Viagem[] = [
-        { origem: "Rua A", destino: "Rua B", distancia: 5.0, duracao: "15 minutos", valor: 15.50, usuario_id: 1, motorista_id: 1 },
-        { origem: "Rua C", destino: "Rua D", distancia: 3.0, duracao: "10 minutos", valor: 18.50, usuario_id: 2, motorista_id: 2 },
-        { origem: "Rua E", destino: "Rua F", distancia: 10.0, duracao: "25 minutos", valor: 40.00, usuario_id: 3, motorista_id: 3 },
-        { origem: "Rua G", destino: "Rua H", distancia: 2.5, duracao: "8 minutos", valor: 44.00, usuario_id: 4, motorista_id: 1 },
-        { origem: "Rua I", destino: "Rua J", distancia: 7.0, duracao: "20 minutos", valor: 55.00, usuario_id: 5, motorista_id: 2 }
+        { origem: "Criciúma", destino: "Içara", distancia: 10.0, duracao: "20 minutos", valor: 25.00, usuario_id: 2, motorista_id: 2 },
+        // { origem: "Tubarao", destino: "Criciúma", distancia: 15.0, duracao: "30 minutos", valor: 40.00, usuario_id: 2, motorista_id: 2 },
+        // { origem: "Ararangua", destino: "Tubarao", distancia: 20.0, duracao: "45 minutos", valor: 50.00, usuario_id: 3, motorista_id: 3 },
+        // { origem: "Içara", destino: "Ararangua", distancia: 25.0, duracao: "55 minutos", valor: 60.00, usuario_id: 4, motorista_id: 4 },
+        // { origem: "Criciúma", destino: "Ararangua", distancia: 30.0, duracao: "60 minutos", valor: 75.00, usuario_id: 5, motorista_id: 5 },
+        // { origem: "Içara", destino: "Tubarao", distancia: 12.0, duracao: "25 minutos", valor: 28.50, usuario_id: 6, motorista_id: 6 },
+        // { origem: "Ararangua", destino: "Criciúma", distancia: 18.0, duracao: "40 minutos", valor: 45.00, usuario_id: 7, motorista_id: 7 },
+        // { origem: "Tubarao", destino: "Içara", distancia: 8.0, duracao: "18 minutos", valor: 22.00, usuario_id: 8, motorista_id: 8 }
       ];
 
       const stmt = db.prepare("INSERT INTO viagens (origem, destino, distancia, duracao, valor, usuario_id, motorista_id) VALUES (?, ?, ?, ?, ?, ?, ?)");

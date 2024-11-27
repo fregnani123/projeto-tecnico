@@ -155,7 +155,6 @@ function Home() {
     setDestination('')
   }
 
-
   return (
     <div className="container">
       <img className="img-tablet" src={imgTablet} alt="Tablet Background" />
