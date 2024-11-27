@@ -23,7 +23,8 @@ Na primeira fase, foi solicitado o desenvolvimento do backend e frontend de uma 
 - **Backend:** Implementação de três endpoints e integração com a API do Google Maps.
 - **Frontend:** Uma interface simples e funcional que complementa o projeto.
 
-## Funcionalidades
+
+<img src="https://github.com/user-attachments/assets/6d43c1de-48a5-429b-b9c7-ab754198fc0e" alt="Captura de tela" width="300">
 
 ## Funcionalidades
 
