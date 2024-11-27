@@ -41,7 +41,7 @@ function Historico() {
     try {
       // Construir a URL da API com os parâmetros
       const url = `http://localhost:8080/api/viagens?usuario_id=${userId}&motorista_id=${driverId}`;
-      
+
       // Fazer a requisição à API
       const response = await axios.get(url);
       const data = response.data;
@@ -86,8 +86,26 @@ function Historico() {
     return `${hours}h ${minutes}m ${remainingSeconds.toFixed(0)}s`;
   };
 
+  const motoristas = [
+    {id:1, nome: "Homer Simpson" },
+    {id:2, nome: "Dominic Toretto" },
+    {id:3, nome: "James Bond" },
+    {id:4,  nome: "Mario Andretti" },
+    {id:5, nome: "Vincent Vega" },
+    {id:6, nome: "Mad Max" },
+    {id:7, nome: "Lightning McQueen" },
+    {id:8, nome: "Elwood Blues" }
+  ];
+
   return (
     <div className="container">
+       <div className='div-motorista'><h2>Lista de Motorista Cadastrados</h2>
+       <ul>
+      {motoristas.map((motorista, index) => (
+        <li key={index}>Id: {motorista.id} - {motorista.nome}</li>
+      ))}
+    </ul>
+       </div>
       <img className="img-tablet" src={imgTablet} alt="Tablet Background" />
       <div className="div-form">
         <header>
@@ -98,19 +116,21 @@ function Historico() {
         <form className="form" onSubmit={handleFilter}>
           <input
             className="input-id-historico"
-            type="text"
+            type="number"
             placeholder="ID do Usuário"
             value={userId}
-            onChange={(e) => setUserId(e.target.value)}
+            onChange={(e) => setUserId(e.target.value.replace(/\D/, ''))} // Only numeric input
             required
           />
+
           <input
             className="select-motorista"
-            type="text"
+            type="number"
             placeholder="ID do Motorista"
             value={driverId}
-            onChange={(e) => setDriverId(e.target.value)}
+            onChange={(e) => setDriverId(e.target.value.replace(/\D/, ''))} // Only numeric input
           />
+
           <button type="submit" disabled={loading}>
             {loading ? 'Carregando...' : 'Aplicar Filtro'}
           </button>
@@ -130,7 +150,7 @@ function Historico() {
                   <p>Destino: {ride.destination}</p>
                   <p>Distância: {ride.distance} km</p>
                   <p>Tempo: {formatDuration(ride.duration)}</p>
-                  <p>Valor: R$ {ride.valor.toFixed(2)}</p>
+                  <p>Valor: R$ {Number(ride.valor).toFixed(2)}</p>
                 </li>
               ))}
             </ul>
