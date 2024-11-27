@@ -78,6 +78,7 @@ Na primeira fase, foi solicitado o desenvolvimento do backend e frontend de uma 
      }
      ```
    - **Observação:** É necessário uma chave de acesso à API do Google Maps.
+   - 
 
 <img src="https://github.com/user-attachments/assets/4739516e-2766-4f6c-9ca2-2deb556b016f" alt="Captura de tela 2024-11-25 160347" width="300"><br/>
 3. **Endpoint 3: GET /ride/{customer_id}?driver_id={driver_id}**
