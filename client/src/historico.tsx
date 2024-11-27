@@ -1,3 +1,4 @@
+import React from 'react';
 import imgTablet from './assets/img/tablet.png';
 import Shopper from './assets/img/lupa.png';
 import { format } from 'date-fns'
@@ -105,7 +106,8 @@ function Historico() {
                             {rides.map((ride: any) => (
                                 <li className="list-li" key={ride.id}>
                                     <p>Data e Hora: {formatDate(ride.date)}</p>
-                                    <p>Motorista: {ride.driver.name}</p>
+                                    <p>Motorista:  {ride.driver.name}</p>
+                                    
                                     <p>Origem: {ride.origin}</p>
                                     <p>Destino: {ride.destination}</p>
                                     <p>Distância: {ride.distance} km</p>

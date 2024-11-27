@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -227,7 +228,7 @@ function Home() {
                 <p><strong>Avaliação:</strong> {driver.avaliacao}/5</p>
                 <p><strong>Distância:</strong> {distancia.toFixed(2)} km</p>
                 <p><strong>Tempo Aproximado:</strong> {tempo.horas} horas, {tempo.minutos} minutos e {tempo.segundos} segundos</p>
-                <p><strong>Valor da Viagem:</strong> R$ {custoCorrida.toFixed(2)}</p>
+                <p><strong>Valor da Viagem:</strong> R$ {Number(driver.custoCorrida).toFixed(2)}</p>
                 <span className="spanBtn">
                   <button className="btn-escolher" onClick={() => handleSubmiRides(driver.id)}>
                     Escolher
