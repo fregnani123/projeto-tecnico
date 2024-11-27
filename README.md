@@ -42,8 +42,8 @@ Para rodar a aplicação, é necessário utilizar o Docker. Siga os passos abaix
 
 2. **Navegue até o diretório do projeto:**
     ```bash
-    
-Dessa forma, você pode substituir `caminho/do/seu/diretorio/projeto` pelo caminho específico no seu sistema quando for necessário. 😉
+    Dessa forma, você pode substituir `caminho/do/seu/diretorio/projeto` pelo caminho específico no seu sistema quando for necessário. 😉
+
     ```
 
 3. **Execute o Docker Compose:**
