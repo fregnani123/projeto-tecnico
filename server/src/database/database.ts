@@ -9,7 +9,6 @@ const dbPath = isDocker
   ? path.resolve('/app/data/server.db') // Caminho dentro do Docker
   : path.resolve(__dirname, '../../server.db'); // Caminho local para rodar fora do Docker
 
-// Inicializa o banco de dados SQLite
 const db: sqlite3.Database = new sqlite3.Database(dbPath, (err: Error | null) => {
   if (err) {
     console.error('Erro ao conectar ao banco de dados:', err.message);
