@@ -1,5 +1,6 @@
-<img src="https://github.com/user-attachments/assets/5186c460-fb8e-4e4d-ab15-f788ca03565e" alt="Captura de tela" width="300" /><br/>
+
 # Projeto Técnico - Teste para Vaga de Desenvolvedor
+<img src="https://github.com/user-attachments/assets/5186c460-fb8e-4e4d-ab15-f788ca03565e" alt="Captura de tela" width="300" /><br/>
 
 ## Introdução
 
@@ -41,7 +42,8 @@ Para rodar a aplicação, é necessário utilizar o Docker. Siga os passos abaix
 
 2. **Navegue até o diretório do projeto:**
     ```bash
-    cd nome-do-projeto
+    
+Dessa forma, você pode substituir `caminho/do/seu/diretorio/projeto` pelo caminho específico no seu sistema quando for necessário. 😉
     ```
 
 3. **Execute o Docker Compose:**
