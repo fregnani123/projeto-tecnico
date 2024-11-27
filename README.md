@@ -44,7 +44,7 @@ Na primeira fase, foi solicitado o desenvolvimento do backend e frontend de uma 
    - **Documentação adicional:**
      - Utiliza a API do Google Maps para calcular a rota entre os pontos. [Documentação](https://developers.google.com/maps/documentation/routes/overview?hl=pt-br)
 
-<img src="https://github.com/user-attachments/assets/6d43c1de-48a5-429b-b9c7-ab754198fc0e" alt="Captura de tela" width="300">
+<img src="https://github.com/user-attachments/assets/6d43c1de-48a5-429b-b9c7-ab754198fc0e" alt="Captura de tela" width="300"><br/>
 2. **Endpoint 2: POST /ride**
    - **Descrição:** Retorna a lista de motoristas disponíveis e informações sobre a rota da viagem.
    - **Exemplo de resposta:**
