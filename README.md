@@ -144,8 +144,14 @@ Para rodar a aplicação, é necessário utilizar o Docker. Siga os passos abaix
 ` pelo caminho específico no seu sistema quando for necessário. 😉
 
     ```
+1 ## Configuração da API do Google Maps
 
-3. **Execute o Docker Compose:**
+Crie um arquivo `.env` na raiz do repositório no seguinte formato:
+
+```env
+GOOGLE_API_KEY=<sua_chave_da_API>
+
+4. **Execute o Docker Compose:**
     ```bash
     docker-compose up
     ```
