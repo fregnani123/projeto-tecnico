@@ -131,8 +131,8 @@ function Home() {
       origem: origin,
       destino: destination,
       distancia: distancia,
-      duracao: tempo.horas * 3600 + tempo.minutos * 60 + tempo.segundos, // Convertendo para segundos
-      valor: motoristaSelecionado.custoCorrida, // Pegando o custo do motorista selecionado
+      duracao: tempo.horas * 3600 + tempo.minutos * 60 + tempo.segundos, 
+      valor: motoristaSelecionado.custoCorrida, 
       data: new Date().toISOString(),
     };
 
@@ -163,7 +163,7 @@ function Home() {
     setDestination('');
   };
 
-  // Função de cadastro de usuário
+  
   // Função de cadastro de usuário
 const handleRegisterUser = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -271,9 +271,8 @@ const fetchUsers = async () => {
             placeholder="Digite o ID do usuário"
             value={userID}
             onChange={(e) => {
-              // Filtra para aceitar apenas números
               const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-              setUserID(onlyNumbers); // Atualiza o estado com apenas números
+              setUserID(onlyNumbers); 
             }}
             required
           />
