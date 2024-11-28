@@ -20,6 +20,12 @@ interface Tempo {
   segundos: number;
 }
 
+declare global {
+  interface Window {
+    google: any; // Declaração para acessar o objeto google
+  }
+}
+
 function Home() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [drivers, setDrivers] = useState<Driver[]>([]);
@@ -38,6 +44,43 @@ function Home() {
   const [users, setUsers] = useState<any[]>([]);
 
   const navigate = useNavigate();
+
+  // Carregar a API do Google Maps
+  useEffect(() => {
+    const loadGoogleMapsAPI = () => {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDAkdxHtIPyHVxNDi3-vOpx_lNT5aUcXGs&libraries=places`;
+      script.async = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        const autocompleteOrigin = new window.google.maps.places.Autocomplete(
+          document.getElementById('origin') as HTMLInputElement,
+          { types: ['address'] }
+        );
+        const autocompleteDestination = new window.google.maps.places.Autocomplete(
+          document.getElementById('destination') as HTMLInputElement,
+          { types: ['address'] }
+        );
+
+        autocompleteOrigin.addListener('place_changed', () => {
+          const place = autocompleteOrigin.getPlace();
+          if (place && place.formatted_address) {
+            setOrigin(place.formatted_address);
+          }
+        });
+
+        autocompleteDestination.addListener('place_changed', () => {
+          const place = autocompleteDestination.getPlace();
+          if (place && place.formatted_address) {
+            setDestination(place.formatted_address);
+          }
+        });
+      };
+    };
+
+    loadGoogleMapsAPI();
+  }, []);
 
   // Atualizar o tempo atual a cada segundo
   useEffect(() => {
@@ -163,32 +206,32 @@ function Home() {
     setDestination('');
   };
 
-  
-  // Função de cadastro de usuário
-const handleRegisterUser = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!userName) {
-    alert('Por favor, insira o nome do usuário.');
-    return;
-  }
+   // Função de cadastro de usuário
+   const handleRegisterUser = async (e: React.FormEvent) => {
+    e.preventDefault(); // Evitar que o formulário seja enviado de forma padrão
+    if (!userName) {
+      alert('Por favor, insira o nome do usuário.');
+      return;
+    }
 
-  try {
-    // Envio para a API de cadastro
-    const response = await axios.post('http://localhost:8080/api/newUser', { nome: userName });
+    try {
+      // Envio para a API de cadastro
+      const response = await axios.post('http://localhost:8080/api/newUser', { nome: userName });
 
-    setUserID(response.data.id);
-    setMessage(`Usuário cadastrado com sucesso!`);
-    setIsSuccess(true);
-    setUserName('');
+      setUserID(response.data.id);
+      setMessage('Usuário cadastrado com sucesso!');
+      setIsSuccess(true);
+      setUserName(''); // Limpar o campo de nome após o cadastro
 
-    // Atualizar a lista de usuários
-    fetchUsers();
+      // Atualizar a lista de usuários
+      fetchUsers(); // Verifique se essa função está corretamente implementada para atualizar a lista
 
-  } catch (error) {
-    setMessage('Erro ao cadastrar o usuário.');
-    setIsSuccess(false);
-  }
-};
+    } catch (error) {
+      setMessage('Erro ao cadastrar o usuário.');
+      setIsSuccess(false);
+    }
+  };
+
 
 // Função para carregar a lista de usuários
 const fetchUsers = async () => {
@@ -225,6 +268,7 @@ const fetchUsers = async () => {
     fetchUsers();
   }, []);
   
+
   return (
     <div className="container">
       <img className="img-tablet" src={imgTablet} alt="Tablet Background" />
@@ -232,17 +276,16 @@ const fetchUsers = async () => {
         <div className="container-users">
           <div className="usurs">
             <h5>Cadastro Usuários (P/Testes)</h5>
-            <form className='form-users' onSubmit={handleRegisterUser}>
-              <input
-              className='name-input'
-                type="text"
-                placeholder="Digite o nome do usuário"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                required
-              />
-              <button className="btn-user" type="submit">Cadastrar</button>
-            </form>
+            <form className="form-users" onSubmit={handleRegisterUser}> {/* Associar o evento onSubmit */}
+          <input className="name-input"
+            type="text"
+            placeholder="Digite o nome do usuário"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            required
+          />
+          <button className="btn-user" type="submit">Cadastrar</button>
+        </form>
             {message && (
               <div className={isSuccess ? 'success-message' : 'error-message'}>
                 {message}
@@ -266,31 +309,33 @@ const fetchUsers = async () => {
         </header>
         <h1>Solicitação de Viagem</h1>
         <form className="form" onSubmit={handleSubmit}>
-        <input
+          <input
             type="text"
             placeholder="Digite o ID do usuário"
             value={userID}
             onChange={(e) => {
               const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-              setUserID(onlyNumbers); 
+              setUserID(onlyNumbers);
             }}
             required
           />
           <input
+            id="origin"
             type="text"
-            placeholder="Endereço de Origem"
+            placeholder="Endereço de origem"
             value={origin}
             onChange={(e) => setOrigin(e.target.value)}
             required
           />
           <input
+            id="destination"
             type="text"
-            placeholder="Endereço de Destino"
+            placeholder="Endereço de destino"
             value={destination}
             onChange={(e) => setDestination(e.target.value)}
             required
           />
-          <button type="submit">Estimar Viagem</button>
+          <button type="submit" className="btn-submit">Calcular Rota</button>
         </form>
         <div className="img-container">
           <img className="shopper" src={Shopper} alt="Shopper" />
@@ -324,14 +369,14 @@ const fetchUsers = async () => {
              title="Mapa com Rota"
              src={mapUrl}
              width="100%"
-             height="280"
+             height="260"
              style={{ border: 0 }}
              allowFullScreen
              loading="lazy"
            />
          </div>
       )}
-          <h2>Motoristas Disponíveis</h2>
+          <h3>Motoristas Disponíveis</h3>
           <ul className="drivers-list">
             {drivers.map((driver) => (
               <li className="driver-card" key={driver.id}>
@@ -340,10 +385,10 @@ const fetchUsers = async () => {
                   <p>{driver.descricao}</p>
                   <p>Carro: {driver.carro}</p>
                   <p>Avaliação: {driver.avaliacao} estrelas</p>
-                  <p>Custo: R$ {driver.custoCorrida}</p>
-                  <button onClick={() => handleSubmiRides(driver.id)}>
-                    Confirmar viagem com {driver.nome}
-                  </button>
+                  <p>Custo: R$ {Number(driver.custoCorrida).toFixed(2)}</p>
+                 <span className='confirmar'><button className='btn-escolher ' onClick={() => handleSubmiRides(driver.id)}>
+                    Confirmar viagem
+                  </button></span> 
                 </div>
               </li>
             ))}

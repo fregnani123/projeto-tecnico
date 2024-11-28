@@ -55,5 +55,5 @@ const listarUsuarios = (req: Request, res: Response): void => {
   });
 };
 
-// Exportação correta
+
 export { cadastrarUsuario, listarUsuarios };
