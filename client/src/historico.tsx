@@ -28,6 +28,7 @@ function Historico() {
   const [rides, setRides] = useState<Ride[]>([]); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+ 
 
   const goHome = () => {
     navigate('/');
@@ -166,3 +167,7 @@ function Historico() {
 }
 
 export default Historico;
+
+
+
+

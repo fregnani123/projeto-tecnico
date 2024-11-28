@@ -32,7 +32,6 @@ function Home() {
   const [mapUrl, setMapUrl] = useState('');
   const [isDriversLoaded, setIsDriversLoaded] = useState(false);
   const [isMotoristaSelecionado, setIsMotoristaSelecionado] = useState(false);
-
   const [userID, setUserID] = useState('');
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
@@ -42,74 +41,67 @@ function Home() {
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const [users, setUsers] = useState<any[]>([]);
+  const [apiKey, setApiKey] = useState('');
+  const [isApiKeyLoaded, setIsApiKeyLoaded] = useState(false);
 
   const navigate = useNavigate();
 
-  // Carregar a API do Google Maps
-  useEffect(() => {
-
-   
-
-const loadGoogleMapsAPI = async () => {
-  try {
-    // Fazer a requisição à API para obter a chave
+  // Função para obter a chave da API
+  const getApiKey = async () => {
     const url = 'http://localhost:8080/api/acessMap';
-    const response = await axios.get(url);
-    const { apiKey } = response.data; // Extrair a chave da resposta
-
-    if (!apiKey) {
-      throw new Error('Chave da API não encontrada.');
+    try {
+      const response = await axios.get(url);
+      const data = response.data;
+      setApiKey(data.apiKey);
+      setIsApiKeyLoaded(true); // Indicando que a chave foi carregada
+      console.log(data);
+    } catch (err) {
+      console.error('Error fetching API key:', err);
     }
+  };
 
-    console.log('Chave da API obtida:', apiKey);
-
-    // Criar o script para carregar a API do Google Maps
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
-    script.async = true;
-    document.body.appendChild(script);
-
-    script.onload = () => {
-      console.log('API do Google Maps carregada com sucesso.');
-
-      const autocompleteOrigin = new window.google.maps.places.Autocomplete(
-        document.getElementById('origin'),
-        { types: ['address'] }
-      );
-
-      const autocompleteDestination = new window.google.maps.places.Autocomplete(
-        document.getElementById('destination'),
-        { types: ['address'] }
-      );
-
-      autocompleteOrigin.addListener('place_changed', () => {
-        const place = autocompleteOrigin.getPlace();
-        if (place && place.formatted_address) {
-          console.log('Endereço de origem selecionado:', place.formatted_address);
-        }
-      });
-
-      autocompleteDestination.addListener('place_changed', () => {
-        const place = autocompleteDestination.getPlace();
-        if (place && place.formatted_address) {
-          console.log('Endereço de destino selecionado:', place.formatted_address);
-        }
-      });
-    };
-
-    script.onerror = () => {
-      console.error('Erro ao carregar a API do Google Maps.');
-    };
-  } catch (error) {
-    console.error('Erro ao obter a chave da API:', error);
-  }
-};
-
-// Chamar a função para carregar o Google Maps
-loadGoogleMapsAPI();
-
-
+  useEffect(() => {
+    getApiKey();
   }, []);
+
+  // Função para carregar a API do Google Maps
+  useEffect(() => {
+    if (isApiKeyLoaded) {
+      const loadGoogleMapsAPI = () => {
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+        script.async = true;
+        document.body.appendChild(script);
+
+        script.onload = () => {
+          const autocompleteOrigin = new window.google.maps.places.Autocomplete(
+            document.getElementById('origin') as HTMLInputElement,
+            { types: ['address'] }
+          );
+          const autocompleteDestination = new window.google.maps.places.Autocomplete(
+            document.getElementById('destination') as HTMLInputElement,
+            { types: ['address'] }
+          );
+
+          autocompleteOrigin.addListener('place_changed', () => {
+            const place = autocompleteOrigin.getPlace();
+            if (place && place.formatted_address) {
+              setOrigin(place.formatted_address);
+            }
+          });
+
+          autocompleteDestination.addListener('place_changed', () => {
+            const place = autocompleteDestination.getPlace();
+            if (place && place.formatted_address) {
+              setDestination(place.formatted_address);
+            }
+          });
+        };
+      };
+
+      loadGoogleMapsAPI();
+    }
+  }, [isApiKeyLoaded, apiKey]);
 
   // Atualizar o tempo atual a cada segundo
   useEffect(() => {
@@ -235,8 +227,8 @@ loadGoogleMapsAPI();
     setDestination('');
   };
 
-   // Função de cadastro de usuário
-   const handleRegisterUser = async (e: React.FormEvent) => {
+  // Função de cadastro de usuário
+  const handleRegisterUser = async (e: React.FormEvent) => {
     e.preventDefault(); // Evitar que o formulário seja enviado de forma padrão
     if (!userName) {
       alert('Por favor, insira o nome do usuário.');
@@ -261,14 +253,13 @@ loadGoogleMapsAPI();
     }
   };
 
-
-// Função para carregar a lista de usuários
-const fetchUsers = async () => {
-  try {
-    const response = await axios.get('http://localhost:8080/api/listaUser');
-    
-    // Verifica se a chave 'usuarios' existe e se é um array
-    if (response.data && Array.isArray(response.data.usuarios)) {
+  // Função para carregar a lista de usuários
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:8080/api/listaUser');
+      
+      // Verifica se a chave 'usuarios' existe e se é um array
+      if(response.data && Array.isArray(response.data.usuarios)) {
       setUsers(response.data.usuarios); // Atualiza o estado com os usuários
     } else {
       console.error('A resposta da API não contém a chave "usuarios" ou não é um array válido.');
