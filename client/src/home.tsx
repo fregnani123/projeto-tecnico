@@ -47,39 +47,68 @@ function Home() {
 
   // Carregar a API do Google Maps
   useEffect(() => {
-    const loadGoogleMapsAPI = () => {
-      const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyDAkdxHtIPyHVxNDi3-vOpx_lNT5aUcXGs&libraries=places`;
-      script.async = true;
-      document.body.appendChild(script);
 
-      script.onload = () => {
-        const autocompleteOrigin = new window.google.maps.places.Autocomplete(
-          document.getElementById('origin') as HTMLInputElement,
-          { types: ['address'] }
-        );
-        const autocompleteDestination = new window.google.maps.places.Autocomplete(
-          document.getElementById('destination') as HTMLInputElement,
-          { types: ['address'] }
-        );
+   
 
-        autocompleteOrigin.addListener('place_changed', () => {
-          const place = autocompleteOrigin.getPlace();
-          if (place && place.formatted_address) {
-            setOrigin(place.formatted_address);
-          }
-        });
+const loadGoogleMapsAPI = async () => {
+  try {
+    // Fazer a requisição à API para obter a chave
+    const url = 'http://localhost:8080/api/acessMap';
+    const response = await axios.get(url);
+    const { apiKey } = response.data; // Extrair a chave da resposta
 
-        autocompleteDestination.addListener('place_changed', () => {
-          const place = autocompleteDestination.getPlace();
-          if (place && place.formatted_address) {
-            setDestination(place.formatted_address);
-          }
-        });
-      };
+    if (!apiKey) {
+      throw new Error('Chave da API não encontrada.');
+    }
+
+    console.log('Chave da API obtida:', apiKey);
+
+    // Criar o script para carregar a API do Google Maps
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+    script.async = true;
+    document.body.appendChild(script);
+
+    script.onload = () => {
+      console.log('API do Google Maps carregada com sucesso.');
+
+      const autocompleteOrigin = new window.google.maps.places.Autocomplete(
+        document.getElementById('origin'),
+        { types: ['address'] }
+      );
+
+      const autocompleteDestination = new window.google.maps.places.Autocomplete(
+        document.getElementById('destination'),
+        { types: ['address'] }
+      );
+
+      autocompleteOrigin.addListener('place_changed', () => {
+        const place = autocompleteOrigin.getPlace();
+        if (place && place.formatted_address) {
+          console.log('Endereço de origem selecionado:', place.formatted_address);
+        }
+      });
+
+      autocompleteDestination.addListener('place_changed', () => {
+        const place = autocompleteDestination.getPlace();
+        if (place && place.formatted_address) {
+          console.log('Endereço de destino selecionado:', place.formatted_address);
+        }
+      });
     };
 
-    loadGoogleMapsAPI();
+    script.onerror = () => {
+      console.error('Erro ao carregar a API do Google Maps.');
+    };
+  } catch (error) {
+    console.error('Erro ao obter a chave da API:', error);
+  }
+};
+
+// Chamar a função para carregar o Google Maps
+loadGoogleMapsAPI();
+
+
   }, []);
 
   // Atualizar o tempo atual a cada segundo

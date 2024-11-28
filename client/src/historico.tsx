@@ -25,7 +25,7 @@ function Historico() {
   const navigate = useNavigate();
   const [userId, setUserId] = useState('');
   const [driverId, setDriverId] = useState('');
-  const [rides, setRides] = useState<Ride[]>([]); // Use a tipagem correta
+  const [rides, setRides] = useState<Ride[]>([]); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -119,7 +119,7 @@ function Historico() {
             type="number"
             placeholder="ID do Usuário"
             value={userId}
-            onChange={(e) => setUserId(e.target.value.replace(/\D/, ''))} // Only numeric input
+            onChange={(e) => setUserId(e.target.value.replace(/\D/, ''))} 
             required
           />
 
@@ -128,7 +128,7 @@ function Historico() {
             type="number"
             placeholder="ID do Motorista"
             value={driverId}
-            onChange={(e) => setDriverId(e.target.value.replace(/\D/, ''))} // Only numeric input
+            onChange={(e) => setDriverId(e.target.value.replace(/\D/, ''))} 
           />
 
           <button type="submit" disabled={loading}>
