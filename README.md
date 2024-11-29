@@ -13,6 +13,8 @@ Este é um projeto técnico desenvolvido como parte de um processo seletivo para
 - **Banco de Dados:** MySQL3
 - **Containerização:** Docker com Docker Compose
 - **Integração:** API do Google Maps
+- **Linguagem de Tipagem:** TypeScript
+
 
 ## Estrutura do Projeto
 
