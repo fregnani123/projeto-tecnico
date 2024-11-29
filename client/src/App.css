@@ -152,7 +152,7 @@ p {
   margin: 0;
 }
 
-.btn-escolher {
+.btn-escolher,.btn-inicio-map {
   text-align: center; 
   background-color:var(--color-primary);
   color: white;
@@ -167,17 +167,26 @@ p {
   background-color: var(--color-primary-hover); 
   transform: scale(1.05);
 }
+
 .spanBtn{
   width: 100%;
   justify-content: end;
   display: flex;
 }
 
+.btn-inicio-map {
+  text-align: center; 
+  background-color:white;
+  color: rgb(0, 0, 0);
+  border: none; 
+  border-radius: 5px; 
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+}
 
-.span-btn{
-width: 100%;
-display: flex;
-justify-content: end;
+.btn-inicio-map:hover {
+  background-color: rgba(255, 255, 255, 0.888); 
 }
 
 header {
@@ -192,7 +201,7 @@ header {
   color: var(--color-secondary);
 }
 
-.btn-home, .btn-historico {
+.btn-home, .btn-historico{
   padding: 10px 10px;
   margin: 2px;
   font-size: 1rem;

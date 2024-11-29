@@ -6,8 +6,8 @@ import Shopper from './assets/img/shopper.png';
 import Clock from './components/clock';
 import './App.css';
 import { registerUser, fetchUsers } from './userService';
-import {goToHistory, resetViagem } from './navigationUtils';
-import { handleClick } from './navigationUtils'; 
+import { resetViagem } from './navigationUtils';
+import { handleClick } from './navigationUtils';
 
 
 function Home() {
@@ -87,7 +87,7 @@ function Home() {
     }
   }, [isApiKeyLoaded, apiKey]);
 
-  
+
   // Enviar a solicitação de rota para a API
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -161,8 +161,8 @@ function Home() {
       origem: origin,
       destino: destination,
       distancia: distancia,
-      duracao: tempo.horas * 3600 + tempo.minutos * 60 + tempo.segundos, 
-      valor: motoristaSelecionado.custoCorrida, 
+      duracao: tempo.horas * 3600 + tempo.minutos * 60 + tempo.segundos,
+      valor: motoristaSelecionado.custoCorrida,
       data: new Date().toISOString(),
     };
 
@@ -214,15 +214,15 @@ function Home() {
           <div className="usurs">
             <h5>Cadastro Usuários (P/Testes)</h5>
             <form className="form-users" onSubmit={handleRegisterUser}> {/* Associar o evento onSubmit */}
-          <input className="name-input"
-            type="text"
-            placeholder="Digite o nome do usuário"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            required
-          />
-          <button className="btn-user" type="submit">Cadastrar</button>
-        </form>
+              <input className="name-input"
+                type="text"
+                placeholder="Digite o nome do usuário"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                required
+              />
+              <button className="btn-user" type="submit">Cadastrar</button>
+            </form>
             {message && (
               <div className={isSuccess ? 'success-message' : 'error-message'}>
                 {message}
@@ -278,50 +278,47 @@ function Home() {
           <img className="shopper" src={Shopper} alt="Shopper" />
         </div>
         <footer>
-         <Clock/>
+          <Clock />
         </footer>
       </div>
       {isDriversLoaded && (
-       <div className={`drivers-container ${isDriversLoaded ? 'visible' : ''}`}>
-       <div className={isMotoristaSelecionado ? 'div-viagem-confirmada': 'div-viagem-confirmada-none'} >
-       <div>
-       {isMotoristaSelecionado && (
-        <div className="confirmation">
-          <h2 className='final'>Viagem Confirmada!</h2>
-          <p>Motorista: {drivers[0].nome}</p>
-          <p>Origem: {origin}</p>
-          <p>Destino: {destination}</p>
-          <p>Distância: {distancia} km</p>
-          <p>Tempo Estimado: {tempo.horas}h {tempo.minutos}m {tempo.segundos}s</p>
-          <h2 className='frase-final'>Desejamos uma excelente viagem.</h2>
-          <img className="img-shopper-iniciar" src={Shopper} alt="Shopper" />
-        </div>
-      )}
-    <button className="nova-viagem" onClick={(e) => handleClick(e, setIsDriversLoaded, setIsMotoristaSelecionado, setUserID, setOrigin, setDestination)}>
-  Início
-</button>
+        <div className={`drivers-container ${isDriversLoaded ? 'visible' : ''}`}>
+          <div className={isMotoristaSelecionado ? 'div-viagem-confirmada' : 'div-viagem-confirmada-none'} >
+            <div>
+              {isMotoristaSelecionado && (
+                <div className="confirmation">
+                  <h2 className='final'>Viagem Confirmada!</h2>
+                  <p>Motorista: {drivers[0].nome}</p>
+                  <p>Origem: {origin}</p>
+                  <p>Destino: {destination}</p>
+                  <p>Distância: {distancia} km</p>
+                  <p>Tempo Estimado: {tempo.horas}h {tempo.minutos}m {tempo.segundos}s</p>
+                  <h2 className='frase-final'>Desejamos uma excelente viagem.</h2>
+                  <img className="img-shopper-iniciar" src={Shopper} alt="Shopper" />
+                </div>
+              )}
+              <button className="nova-viagem" onClick={(e) => handleClick(e, setIsDriversLoaded, setIsMotoristaSelecionado, setUserID, setOrigin, setDestination)}>
+                Início
+              </button>
 
-</div></div>
-       {mapUrl && (
-         <div className="map-container">
-           <p className='p-reset'><span className='span-motorista'>Selecionar Motorista</span> <button
-      className='nova-viagem'
-      onClick={() => goToHistory(navigate)} // Passa o navigate para a função goToHistory
-    >
-      Histórico
-    </button></p>
-           <span>Mapa com a Rota</span>
-           <iframe
-             title="Mapa com Rota"
-             src={mapUrl}
-             width="100%"
-             height="260"
-             style={{ border: 0 }}
-             allowFullScreen
-             loading="lazy"
-           />
-         </div>
-      )}
+            </div></div>
+          {mapUrl && (
+            <div className="map-container">
+              <p className='p-reset'><span className='span-motorista'>Selecionar Motorista</span><button className='btn-inicio-map' onClick={(e) => handleClick(e, setIsDriversLoaded, setIsMotoristaSelecionado, setUserID, setOrigin, setDestination)}>
+               Início
+              </button></p>
+              <span>Mapa com a Rota</span>
+              <iframe
+                title="Mapa com Rota"
+                src={mapUrl}
+                width="100%"
+                height="260"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+              />
+            </div>
+          )}
           <h3>Motoristas Disponíveis</h3>
           <ul className="drivers-list">
             {drivers.map((driver) => (
@@ -332,17 +329,17 @@ function Home() {
                   <p>Carro: {driver.carro}</p>
                   <p>Avaliação: {driver.avaliacao} estrelas</p>
                   <p>Custo: R$ {Number(driver.custoCorrida).toFixed(2)}</p>
-                 <span className='confirmar'><button className='btn-escolher ' onClick={() => handleSubmiRides(driver.id)}>
+                  <span className='confirmar'><button className='btn-escolher ' onClick={() => handleSubmiRides(driver.id)}>
                     Confirmar viagem
-                  </button></span> 
+                  </button></span>
                 </div>
               </li>
             ))}
           </ul>
         </div>
       )}
-     
-  
+
+
     </div>
   );
 }

@@ -12,10 +12,9 @@ export const resetViagem = (
   setIsMotoristaSelecionado: React.Dispatch<React.SetStateAction<boolean>>,
   setUserID: React.Dispatch<React.SetStateAction<string>>,
   setOrigin: React.Dispatch<React.SetStateAction<string>>,
-  setDestination: React.Dispatch<React.SetStateAction<string>>,
-  e: React.FormEvent
+  setDestination: React.Dispatch<React.SetStateAction<string>>
 ) => {
-  e.preventDefault();
+  // Resetar os estados
   setIsDriversLoaded(false);
   setIsMotoristaSelecionado(false);
   setUserID('');
@@ -25,20 +24,19 @@ export const resetViagem = (
 
 // Função para tratar o clique do botão
 export const handleClick = (
-    e: React.MouseEvent<HTMLButtonElement>, 
-    setIsDriversLoaded: React.Dispatch<React.SetStateAction<boolean>>, 
-    setIsMotoristaSelecionado: React.Dispatch<React.SetStateAction<boolean>>, 
-    setUserID: React.Dispatch<React.SetStateAction<string>>, 
-    setOrigin: React.Dispatch<React.SetStateAction<string>>, 
-    setDestination: React.Dispatch<React.SetStateAction<string>>
-  ) => {
-    resetViagem(
-      setIsDriversLoaded,
-      setIsMotoristaSelecionado,
-      setUserID,
-      setOrigin,
-      setDestination,
-      e as unknown as React.FormEvent // Cast para o tipo esperado pela resetViagem
-    );
-  };
-  
+  e: React.MouseEvent<HTMLButtonElement>, 
+  setIsDriversLoaded: React.Dispatch<React.SetStateAction<boolean>>, 
+  setIsMotoristaSelecionado: React.Dispatch<React.SetStateAction<boolean>>, 
+  setUserID: React.Dispatch<React.SetStateAction<string>>, 
+  setOrigin: React.Dispatch<React.SetStateAction<string>>, 
+  setDestination: React.Dispatch<React.SetStateAction<string>>
+) => {
+  // Chamar a função resetViagem
+  resetViagem(
+    setIsDriversLoaded,
+    setIsMotoristaSelecionado,
+    setUserID,
+    setOrigin,
+    setDestination
+  );
+};
