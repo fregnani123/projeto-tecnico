@@ -3,31 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import imgTablet from './assets/img/tablet.png';
 import Shopper from './assets/img/shopper.png';
+import Clock from './components/clock';
 import './App.css';
+import { registerUser, fetchUsers } from './userService';
+import {goToHistory, resetViagem } from './navigationUtils';
+import { handleClick } from './navigationUtils'; 
 
-interface Driver {
-  id: number;
-  nome: string;
-  descricao: string;
-  carro: string;
-  avaliacao: number;
-  custoCorrida: number;
-}
-
-interface Tempo {
-  horas: number;
-  minutos: number;
-  segundos: number;
-}
-
-declare global {
-  interface Window {
-    google: any; // Declaração para acessar o objeto google
-  }
-}
 
 function Home() {
-  const [currentTime, setCurrentTime] = useState(new Date());
+
   const [drivers, setDrivers] = useState<Driver[]>([]);
   const [mapUrl, setMapUrl] = useState('');
   const [isDriversLoaded, setIsDriversLoaded] = useState(false);
@@ -103,25 +87,7 @@ function Home() {
     }
   }, [isApiKeyLoaded, apiKey]);
 
-  // Atualizar o tempo atual a cada segundo
-  useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Formatação da data
-  const formatDate = (date: Date): string => {
-    return date.toLocaleString('pt-BR', {
-      weekday: 'long',
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    });
-  };
-
+  
   // Enviar a solicitação de rota para a API
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -212,82 +178,33 @@ function Home() {
     }
   };
 
-  // Navegar para a página de histórico
-  const goToHistory = () => {
-    navigate('/historico');
-  };
-
-  // Resetar a viagem
-  const resetViagem = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsDriversLoaded(false);
-    setIsMotoristaSelecionado(false);
-    setUserID('');
-    setOrigin('');
-    setDestination('');
-  };
-
-  // Função de cadastro de usuário
   const handleRegisterUser = async (e: React.FormEvent) => {
-    e.preventDefault(); // Evitar que o formulário seja enviado de forma padrão
-    if (!userName) {
-      alert('Por favor, insira o nome do usuário.');
-      return;
-    }
-
+    e.preventDefault();
     try {
-      // Envio para a API de cadastro
-      const response = await axios.post('http://localhost:8080/api/newUser', { nome: userName });
-
-      setUserID(response.data.id);
+      const data = await registerUser(userName);
+      setUserID(data.id);
       setMessage('Usuário cadastrado com sucesso!');
       setIsSuccess(true);
-      setUserName(''); // Limpar o campo de nome após o cadastro
-
-      // Atualizar a lista de usuários
-      fetchUsers(); // Verifique se essa função está corretamente implementada para atualizar a lista
-
-    } catch (error) {
-      setMessage('Erro ao cadastrar o usuário.');
+      setUserName('');
+      const updatedUsers = await fetchUsers();
+      setUsers(updatedUsers);
+    } catch (error: any) {
+      setMessage(error.message || 'Erro ao cadastrar o usuário.');
       setIsSuccess(false);
     }
   };
 
-  // Função para carregar a lista de usuários
-  const fetchUsers = async () => {
-    try {
-      const response = await axios.get('http://localhost:8080/api/listaUser');
-      
-      // Verifica se a chave 'usuarios' existe e se é um array
-      if(response.data && Array.isArray(response.data.usuarios)) {
-      setUsers(response.data.usuarios); // Atualiza o estado com os usuários
-    } else {
-      console.error('A resposta da API não contém a chave "usuarios" ou não é um array válido.');
-    }
-  } catch (error) {
-    console.error('Erro ao carregar os usuários:', error);
-  }
-};
-
   useEffect(() => {
-    const fetchUsers = async () => {
+    const loadUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/listaUser');
-        
-        // Verifica se a chave 'usuarios' existe e se é um array
-        if (response.data && Array.isArray(response.data.usuarios)) {
-          setUsers(response.data.usuarios); // Atualiza o estado com os usuários
-        } else {
-          console.error('A resposta da API não contém a chave "usuarios" ou não é um array válido.');
-        }
+        const usersList = await fetchUsers();
+        setUsers(usersList);
       } catch (error) {
         console.error('Erro ao carregar os usuários:', error);
       }
     };
-  
-    fetchUsers();
+    loadUsers();
   }, []);
-  
 
   return (
     <div className="container">
@@ -325,7 +242,7 @@ function Home() {
         </div>
         <header>
           <span className="text-inicio">Início</span>
-          <button className="btn-historico" onClick={goToHistory}>Histórico</button>
+          <button className="btn-historico" onClick={() => navigate('/historico')}>Histórico</button>
         </header>
         <h1>Solicitação de Viagem</h1>
         <form className="form" onSubmit={handleSubmit}>
@@ -361,7 +278,7 @@ function Home() {
           <img className="shopper" src={Shopper} alt="Shopper" />
         </div>
         <footer>
-          <span>{formatDate(currentTime)}</span>
+         <Clock/>
         </footer>
       </div>
       {isDriversLoaded && (
@@ -380,10 +297,19 @@ function Home() {
           <img className="img-shopper-iniciar" src={Shopper} alt="Shopper" />
         </div>
       )}
-       <button className='nova-viagem' onClick={resetViagem}>Início</button></div></div>
+    <button className="nova-viagem" onClick={(e) => handleClick(e, setIsDriversLoaded, setIsMotoristaSelecionado, setUserID, setOrigin, setDestination)}>
+  Início
+</button>
+
+</div></div>
        {mapUrl && (
          <div className="map-container">
-           <p className='p-reset'><span className='span-motorista'>Selecionar Motorista</span><button onClick={resetViagem} className='reset'>Início</button></p>
+           <p className='p-reset'><span className='span-motorista'>Selecionar Motorista</span> <button
+      className='nova-viagem'
+      onClick={() => goToHistory(navigate)} // Passa o navigate para a função goToHistory
+    >
+      Histórico
+    </button></p>
            <span>Mapa com a Rota</span>
            <iframe
              title="Mapa com Rota"
