@@ -108,14 +108,14 @@ function inserirDadosIniciais(): void {
     if (row.count === 0) {
       // Inserindo motoristas de exemplo (apenas na primeira execução)
       const motoristas: Motorista[] = [
-        { nome: "Homer Simpson", descricao: "Olá! Sou o Homer...", carro: "Plymouth Valiant 1973 rosa e enferrujado", avaliacao: 2, taxaPorKm: 2.50, kmMinimo: 1 },
-        { nome: "Dominic Toretto", descricao: "Ei, aqui é o Dom...", carro: "Dodge Charger R/T 1970 modificado", avaliacao: 4, taxaPorKm: 5.00, kmMinimo: 1 },
+        { nome: "Homer Simpson", descricao: "Olá! Sou o Homer...", carro: "Plymouth Valiant 1973 rosa e enferrujado", avaliacao: 2, taxaPorKm: 2.50, kmMinimo: 5 },
+        { nome: "Dominic Toretto", descricao: "Ei, aqui é o Dom...", carro: "Dodge Charger R/T 1970 modificado", avaliacao: 4, taxaPorKm: 5.00, kmMinimo: 5 },
         { nome: "James Bond", descricao: "Boa noite, sou James Bond...", carro: "Aston Martin DB5 clássico", avaliacao: 5, taxaPorKm: 10.00, kmMinimo: 1 },
-        { nome: "Mario Andretti", descricao: "Olá! Sou Mario Andretti, uma lenda das pistas...", carro: "Lotus 79 preto e dourado", avaliacao: 5, taxaPorKm: 7.50, kmMinimo: 2 },
+        { nome: "Mario Andretti", descricao: "Olá! Sou Mario Andretti, uma lenda das pistas...", carro: "Lotus 79 preto e dourado", avaliacao: 5, taxaPorKm: 7.50, kmMinimo: 5 },
         { nome: "Vincent Vega", descricao: "Oi, eu sou o Vincent. Vou levá-lo com estilo.", carro: "Chevrolet Nova 1970 preto", avaliacao: 3, taxaPorKm: 3.50, kmMinimo: 1 },
-        { nome: "Mad Max", descricao: "Sou Max, especialista em estradas perigosas...", carro: "Ford Falcon XB modificado para o apocalipse", avaliacao: 5, taxaPorKm: 6.00, kmMinimo: 1 },
-        { nome: "Lightning McQueen", descricao: "Ka-chow! Sou Lightning McQueen, rápido e eficiente!", carro: "Corrida Stock Car vermelho brilhante", avaliacao: 4, taxaPorKm: 4.00, kmMinimo: 1 },
-        { nome: "Elwood Blues", descricao: "Oi, sou o Elwood, especialista em fugas dramáticas.", carro: "Dodge Monaco 1974 com uma sirene", avaliacao: 3, taxaPorKm: 3.00, kmMinimo: 1 }
+        { nome: "Mad Max", descricao: "Sou Max, especialista em estradas perigosas...", carro: "Ford Falcon XB modificado para o apocalipse", avaliacao: 5, taxaPorKm: 6.00, kmMinimo: 10 },
+        { nome: "Lightning McQueen", descricao: "Ka-chow! Sou Lightning McQueen, rápido e eficiente!", carro: "Corrida Stock Car vermelho brilhante", avaliacao: 4, taxaPorKm: 4.00, kmMinimo: 10},
+        { nome: "Elwood Blues", descricao: "Oi, sou o Elwood, especialista em fugas dramáticas.", carro: "Dodge Monaco 1974 com uma sirene", avaliacao: 3, taxaPorKm: 3.00, kmMinimo: 20 }
       ];
       
 
